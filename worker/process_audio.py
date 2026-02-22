@@ -550,17 +550,17 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
 
             # ---- Step 8: Speech-yield gate -----------------------------------
             if speech_yield < cfg.speech_yield_gate:
-                log.info(
-                    f"[{recording_id}] GATED_LOW_SPEECH "
-                    f"yield={speech_yield:.1%} < "
-                    f"gate={cfg.speech_yield_gate:.0%}"
+                reason = (
+                    f"low_speech: yield={speech_yield:.1%} "
+                    f"({speech_seconds:.1f}s speech from {total_dur:.1f}s) "
+                    f"< gate={cfg.speech_yield_gate:.0%}"
                 )
-                finalize_recording_success(
-                    sb, recording_id, "processed_low_speech", metrics,
-                    cfg.dry_run,
+                log.info(f"[{recording_id}] GATED_LOW_SPEECH {reason}")
+                finalize_recording_failed(
+                    sb, recording_id, reason, cfg.dry_run,
                 )
                 log.info(
-                    f"[{recording_id}] DB_UPDATED processed_low_speech"
+                    f"[{recording_id}] DB_UPDATED failed (low_speech)"
                 )
                 return "processed_low_speech"
 
