@@ -450,9 +450,8 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
 
     Returns one of:
         ``"processed"``  — clips extracted and uploaded
-        ``"processed_low_speech"`` — yield below gate; no clips uploaded
         ``"skipped"``  — recording not in raw_uploaded (already claimed)
-        ``"failed"``   — error; failure_reason written to DB
+        ``"failed"``   — error (or low-speech gate); failure_reason written
     """
     if cfg is None:
         cfg = ProcessorConfig.from_env()
@@ -551,6 +550,8 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
             # ---- Step 8: Speech-yield gate -----------------------------------
             if speech_yield < cfg.speech_yield_gate:
                 reason = (
+                    f"Low speech yield ({speech_yield:.1%}): "
+                    f"below {cfg.speech_yield_gate:.0%} gate"
                     f"low_speech: yield={speech_yield:.1%} "
                     f"({speech_seconds:.1f}s speech from {total_dur:.1f}s) "
                     f"< gate={cfg.speech_yield_gate:.0%}"
@@ -562,7 +563,21 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
                 log.info(
                     f"[{recording_id}] DB_UPDATED failed (low_speech)"
                 )
-                return "processed_low_speech"
+                log.info(f"[{recording_id}] GATED_LOW_SPEECH {reason}")
+                # Use 'failed' — the only valid terminal-error status
+                if not cfg.dry_run and sb is not None:
+                    try:
+                        sb.table("recordings").update(
+                            {"status": "failed", "failure_reason": reason, **metrics}
+                        ).eq("id", recording_id).execute()
+                    except Exception:
+                        sb.table("recordings").update(
+                            {"status": "failed", "failure_reason": reason}
+                        ).eq("id", recording_id).execute()
+                elif cfg.dry_run:
+                    log.info(f"[{recording_id}] DRY_RUN: finalize -> failed: {reason}")
+                log.info(f"[{recording_id}] DB_UPDATED failed (low speech)")
+                return "failed"
 
             # ---- Step 9: Encode, upload, collect clip rows -------------------
             clip_rows: list[dict] = []

@@ -23,11 +23,12 @@ ALTER TABLE recordings
 CREATE TABLE IF NOT EXISTS clips (
   id               UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   recording_id     UUID NOT NULL REFERENCES recordings(id) ON DELETE CASCADE,
-  gcs_path         TEXT NOT NULL,
+  gcs_clip_url     TEXT NOT NULL,
   duration_seconds REAL NOT NULL,
-  format           TEXT NOT NULL DEFAULT 'mp3',
-  source_quality   TEXT,
+  transcript       TEXT,
+  status           TEXT NOT NULL DEFAULT 'pending_review',
   created_at       TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_clips_recording_id ON clips(recording_id);
+CREATE INDEX IF NOT EXISTS idx_clips_status ON clips(status);
