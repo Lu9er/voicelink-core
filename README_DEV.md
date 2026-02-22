@@ -56,13 +56,13 @@
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `CV_API_BASE_URL` | — | Common Voice API root |
-| `CV_AUTH_EMAIL` | — | Login email |
-| `CV_AUTH_PASSWORD` | — | Login password |
+| `CV_API_BASE_URL` | `https://api.commonvoice.mozilla.org` | Common Voice API root |
+| `CV_CLIENT_ID` | — | Same as cv_api_validate (see above) |
+| `CV_CLIENT_SECRET` | — | Same as cv_api_validate (see above) |
 | `CV_LANGUAGE` | `ate` | Target language code (Ateso) |
 | `CV_RESOURCE_TYPE` | `spontaneous` | `scripted` or `spontaneous` |
 | `CV_AUTH_ENDPOINT` | `/auth/token` | Override auth path |
-| `CV_UPLOAD_ENDPOINT` | `/clips` | Override upload path |
+| `CV_UPLOAD_ENDPOINT` | `/audio` | Override upload path |
 
 ## Prerequisites
 

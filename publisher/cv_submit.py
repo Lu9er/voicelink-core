@@ -15,13 +15,13 @@ Usage:
     DRY_RUN=true python -m publisher.cv_submit
 
 Environment:
-    CV_API_BASE_URL        e.g. https://commonvoice.mozilla.org/api/v1
-    CV_AUTH_EMAIL           login email
-    CV_AUTH_PASSWORD        login password
+    CV_API_BASE_URL        e.g. https://api.commonvoice.mozilla.org
+    CV_CLIENT_ID           Common Voice API client ID
+    CV_CLIENT_SECRET       Common Voice API client secret
     CV_LANGUAGE             target language code (default: ate)
     CV_RESOURCE_TYPE        scripted | spontaneous (default: spontaneous)
     CV_AUTH_ENDPOINT        override auth path   (default: /auth/token)
-    CV_UPLOAD_ENDPOINT      override upload path  (default: /clips)
+    CV_UPLOAD_ENDPOINT      override upload path  (default: /audio)
 """
 
 from __future__ import annotations
@@ -46,13 +46,13 @@ DRY_RUN = os.environ.get("DRY_RUN", "false").lower() in ("1", "true", "yes")
 # Configuration
 # ---------------------------------------------------------------------------
 
-CV_API_BASE_URL = os.environ.get("CV_API_BASE_URL", "")
-CV_AUTH_EMAIL = os.environ.get("CV_AUTH_EMAIL", "")
-CV_AUTH_PASSWORD = os.environ.get("CV_AUTH_PASSWORD", "")
+CV_API_BASE_URL = os.environ.get("CV_API_BASE_URL", "https://api.commonvoice.mozilla.org")
+CV_CLIENT_ID = os.environ.get("CV_CLIENT_ID", "")
+CV_CLIENT_SECRET = os.environ.get("CV_CLIENT_SECRET", "")
 CV_LANGUAGE = os.environ.get("CV_LANGUAGE", "ate")
 CV_RESOURCE_TYPE = os.environ.get("CV_RESOURCE_TYPE", "spontaneous")
 CV_AUTH_ENDPOINT = os.environ.get("CV_AUTH_ENDPOINT", "/auth/token")
-CV_UPLOAD_ENDPOINT = os.environ.get("CV_UPLOAD_ENDPOINT", "/clips")
+CV_UPLOAD_ENDPOINT = os.environ.get("CV_UPLOAD_ENDPOINT", "/audio")
 
 
 # ---------------------------------------------------------------------------
@@ -90,14 +90,15 @@ def _make_clients():
 # ---------------------------------------------------------------------------
 
 
-def authenticate(base_url: str, email: str, password: str) -> str:
+def authenticate(base_url: str, client_id: str, client_secret: str) -> str:
     """POST to the auth endpoint and return a bearer token."""
     resp = httpx.post(
         f"{base_url}{CV_AUTH_ENDPOINT}",
-        json={"email": email, "password": password},
+        json={"clientId": client_id, "clientSecret": client_secret},
         timeout=30,
     )
-    resp.raise_for_status()
+    if resp.status_code not in (200, 201):
+        raise RuntimeError(f"Auth failed: HTTP {resp.status_code}")
     token = resp.json().get("token", "")
     if not token:
         raise RuntimeError("Auth response missing 'token' field")
@@ -202,7 +203,7 @@ def run(limit: int = 10) -> dict:
 
     # Authenticate once per batch
     try:
-        token = authenticate(CV_API_BASE_URL, CV_AUTH_EMAIL, CV_AUTH_PASSWORD)
+        token = authenticate(CV_API_BASE_URL, CV_CLIENT_ID, CV_CLIENT_SECRET)
     except Exception as e:
         log.error(f"CV auth failed: {e}")
         sys.exit(1)
