@@ -443,20 +443,6 @@ def build_clips(
 
 
 # ===================================================================
-# Source quality tag
-# ===================================================================
-def classify_source_quality(sample_rate: int) -> str:
-    """Map source sample rate to a human-readable quality tag."""
-    if sample_rate <= 8_000:
-        return "telephony_8k"
-    if sample_rate <= 16_000:
-        return "wideband_16k"
-    if sample_rate <= 24_000:
-        return "broadcast_24k"
-    return "broadcast_hd"
-
-
-# ===================================================================
 # Main orchestrator
 # ===================================================================
 def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
@@ -505,8 +491,6 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
                     f"codec={meta['codec']} sr={meta['sr']} "
                     f"ch={meta['channels']} dur={meta['duration']:.1f}s"
                 )
-
-            source_quality = classify_source_quality(meta["sr"])
 
             # Persist source metadata (defensive — columns may not exist)
             if sb is not None:
@@ -568,6 +552,16 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
                 reason = (
                     f"Low speech yield ({speech_yield:.1%}): "
                     f"below {cfg.speech_yield_gate:.0%} gate"
+                    f"low_speech: yield={speech_yield:.1%} "
+                    f"({speech_seconds:.1f}s speech from {total_dur:.1f}s) "
+                    f"< gate={cfg.speech_yield_gate:.0%}"
+                )
+                log.info(f"[{recording_id}] GATED_LOW_SPEECH {reason}")
+                finalize_recording_failed(
+                    sb, recording_id, reason, cfg.dry_run,
+                )
+                log.info(
+                    f"[{recording_id}] DB_UPDATED failed (low_speech)"
                 )
                 log.info(f"[{recording_id}] GATED_LOW_SPEECH {reason}")
                 # Use 'failed' — the only valid terminal-error status
@@ -600,6 +594,7 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
                     "recording_id": recording_id,
                     "gcs_clip_url": dest_gcs,
                     "duration_seconds": round(end - start, 3),
+                    "transcript": None,
                     "status": "pending_review",
                 })
 
