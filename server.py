@@ -337,6 +337,34 @@ def _download_with_retry(
                 raise
 
 
+# ---------------------------------------------------------------------------
+# Module 3 — process-audio endpoint
+# ---------------------------------------------------------------------------
+class ProcessAudioPayload(BaseModel):
+    recording_id: str
+
+
+@app.post("/api/worker/process-audio")
+def process_audio_endpoint(payload: ProcessAudioPayload):
+    """Worker endpoint for Module 3 audio processing.
+
+    Called by Cloud Tasks (or manually) after a recording reaches
+    status='raw_uploaded'.  Delegates to worker.process_audio.process_one().
+    """
+    from worker.process_audio import process_one
+
+    result = process_one(payload.recording_id)
+    status = "error" if result == "failed" else "ok"
+    return {
+        "status": status,
+        "recording_id": payload.recording_id,
+        "result": result,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 def _get_duration_seconds(filepath: str) -> float:
     """Use ffprobe to extract the duration in seconds."""
     result = subprocess.run(
