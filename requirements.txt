@@ -15,3 +15,8 @@ google-cloud-tasks>=2.16.0
 
 # Module 3: Audio Processor (silero-vad, CPU-only torch)
 torch>=2.0.0
+
+# Module 4: Transcription + CV Submission
+# (optional — install only the backend you use)
+# pip install faster-whisper    # local ASR, default backend
+# pip install openai            # OpenAI Whisper API backend

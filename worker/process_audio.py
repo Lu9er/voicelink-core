@@ -217,22 +217,9 @@ def insert_clips(
     if dry_run:
         log.info(f"DRY_RUN: would insert {len(clip_rows)} clip(s)")
         for r in clip_rows:
-            log.info(f"  {r['gcs_path']}  {r['duration_seconds']:.1f}s")
+            log.info(f"  {r['gcs_clip_url']}  {r['duration_seconds']:.1f}s")
         return
-    try:
-        supabase.table("clips").insert(clip_rows).execute()
-    except Exception:
-        # Retry without optional columns (source_quality may not exist)
-        minimal = [
-            {
-                "recording_id": r["recording_id"],
-                "gcs_path": r["gcs_path"],
-                "duration_seconds": r["duration_seconds"],
-                "format": r["format"],
-            }
-            for r in clip_rows
-        ]
-        supabase.table("clips").insert(minimal).execute()
+    supabase.table("clips").insert(clip_rows).execute()
 
 
 # ===================================================================
@@ -477,9 +464,8 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
 
     Returns one of:
         ``"processed"``  — clips extracted and uploaded
-        ``"processed_low_speech"`` — yield below gate; no clips uploaded
         ``"skipped"``  — recording not in raw_uploaded (already claimed)
-        ``"failed"``   — error; failure_reason written to DB
+        ``"failed"``   — error (or low-speech gate); failure_reason written
     """
     if cfg is None:
         cfg = ProcessorConfig.from_env()
@@ -579,19 +565,25 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
 
             # ---- Step 8: Speech-yield gate -----------------------------------
             if speech_yield < cfg.speech_yield_gate:
-                log.info(
-                    f"[{recording_id}] GATED_LOW_SPEECH "
-                    f"yield={speech_yield:.1%} < "
-                    f"gate={cfg.speech_yield_gate:.0%}"
+                reason = (
+                    f"Low speech yield ({speech_yield:.1%}): "
+                    f"below {cfg.speech_yield_gate:.0%} gate"
                 )
-                finalize_recording_success(
-                    sb, recording_id, "processed_low_speech", metrics,
-                    cfg.dry_run,
-                )
-                log.info(
-                    f"[{recording_id}] DB_UPDATED processed_low_speech"
-                )
-                return "processed_low_speech"
+                log.info(f"[{recording_id}] GATED_LOW_SPEECH {reason}")
+                # Use 'failed' — the only valid terminal-error status
+                if not cfg.dry_run and sb is not None:
+                    try:
+                        sb.table("recordings").update(
+                            {"status": "failed", "failure_reason": reason, **metrics}
+                        ).eq("id", recording_id).execute()
+                    except Exception:
+                        sb.table("recordings").update(
+                            {"status": "failed", "failure_reason": reason}
+                        ).eq("id", recording_id).execute()
+                elif cfg.dry_run:
+                    log.info(f"[{recording_id}] DRY_RUN: finalize -> failed: {reason}")
+                log.info(f"[{recording_id}] DB_UPDATED failed (low speech)")
+                return "failed"
 
             # ---- Step 9: Encode, upload, collect clip rows -------------------
             clip_rows: list[dict] = []
@@ -606,10 +598,9 @@ def process_one(recording_id: str, cfg: ProcessorConfig | None = None) -> str:
 
                 clip_rows.append({
                     "recording_id": recording_id,
-                    "gcs_path": dest_gcs,
+                    "gcs_clip_url": dest_gcs,
                     "duration_seconds": round(end - start, 3),
-                    "format": "mp3",
-                    "source_quality": source_quality,
+                    "status": "pending_review",
                 })
 
             log.info(f"[{recording_id}] UPLOADED {len(clip_rows)} clip(s)")

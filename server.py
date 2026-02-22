@@ -363,6 +363,58 @@ def process_audio_endpoint(payload: ProcessAudioPayload):
 
 
 # ---------------------------------------------------------------------------
+# Module 4 — Review API endpoints
+# ---------------------------------------------------------------------------
+class ClipActionPayload(BaseModel):
+    clip_id: str
+    reason: str = ""
+    text: str = ""
+
+
+@app.get("/api/review/clips")
+def review_list_clips(status: str = "pending_review", limit: int = 20):
+    """List clips for review."""
+    from review.review_queue import list_clips
+
+    return list_clips(supabase, status, limit)
+
+
+@app.post("/api/review/approve")
+def review_approve_clip(payload: ClipActionPayload):
+    """Approve a single clip (pending_review -> approved)."""
+    from review.review_queue import approve_clip
+
+    row = approve_clip(supabase, payload.clip_id)
+    if row:
+        return {"status": "ok", "clip_id": payload.clip_id}
+    raise HTTPException(status_code=404, detail="Clip not found or not pending_review")
+
+
+@app.post("/api/review/reject")
+def review_reject_clip(payload: ClipActionPayload):
+    """Reject a single clip."""
+    from review.review_queue import reject_clip
+
+    row = reject_clip(supabase, payload.clip_id, payload.reason)
+    if row:
+        return {"status": "ok", "clip_id": payload.clip_id}
+    raise HTTPException(status_code=404, detail="Clip not found")
+
+
+@app.post("/api/review/set-transcript")
+def review_set_transcript(payload: ClipActionPayload):
+    """Set or edit a clip transcript."""
+    from review.review_queue import set_transcript
+
+    if not payload.text:
+        raise HTTPException(status_code=400, detail="text is required")
+    row = set_transcript(supabase, payload.clip_id, payload.text)
+    if row:
+        return {"status": "ok", "clip_id": payload.clip_id}
+    raise HTTPException(status_code=404, detail="Clip not found")
+
+
+# ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 def _get_duration_seconds(filepath: str) -> float:
