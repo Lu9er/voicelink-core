@@ -1,0 +1,40 @@
+# Environment and secrets
+.env
+.env.*
+
+# Virtual environment
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code
+.claude/
+
+# Temp/test files
+test.txt
+*.zip
+
+# Torch model cache (large files)
+*.pt
+*.pth
+
+# Local sandbox IDs (use ids.example.txt as template)
+sandbox/ids.txt
+sandbox/ids.local.txt
