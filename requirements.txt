@@ -1,0 +1,17 @@
+# Shared
+supabase>=2.0.0
+google-cloud-storage>=2.10.0
+python-dotenv>=1.0.0
+
+# Module 1: Archive Ingester
+tqdm>=4.65.0
+
+# Module 2: Live Ingester
+fastapi>=0.110.0
+uvicorn>=0.29.0
+httpx>=0.27.0
+twilio>=9.0.0
+google-cloud-tasks>=2.16.0
+
+# Module 3: Audio Processor (silero-vad, CPU-only torch)
+torch>=2.0.0
