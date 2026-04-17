@@ -38,3 +38,16 @@ test.txt
 # Local sandbox IDs (use ids.example.txt as template)
 sandbox/ids.txt
 sandbox/ids.local.txt
+
+# GCP credentials
+gcs-key.json
+
+# Generated reports and output
+reports/
+yield_test_output/
+batch_200_log.txt
+
+# Dashboard build artifacts
+dashboard/.open-next/
+dashboard/node_modules/
+dashboard/.env.local

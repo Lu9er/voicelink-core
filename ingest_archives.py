@@ -123,7 +123,6 @@ def upsert_recording(file_hash: str, duration: float, gcs_path: str) -> None:
         {
             "external_call_id": file_hash,
             "source_type": "archive",
-            "source_id": file_hash,
             "duration_seconds": duration,
             "gcs_path": gcs_path,
             "status": "raw_uploaded",
@@ -152,7 +151,10 @@ def main() -> None:
         sys.exit(1)
 
     # Discover MP3 files
-    mp3_files = sorted(archive_dir.rglob("*.mp3"))
+    mp3_files = sorted(
+    p for p in archive_dir.rglob("*")
+    if p.is_file() and p.suffix.lower() == ".mp3"
+)
     log.info(f"Found {len(mp3_files):,} MP3 files in {archive_dir}")
     if not mp3_files:
         return
