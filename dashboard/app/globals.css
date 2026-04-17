@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------
+   Design tokens
+   Light by default, auto-swap to dark on system preference.
+-------------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-elev: #f8f9fa;
+  --surface-hover: #f1f3f4;
+
+  /* Borders */
+  --border: #e8eaed;
+  --border-strong: #dadce0;
+
+  /* Foreground (text) */
+  --fg: #1f2328;
+  --fg-muted: #5f6368;
+  --fg-subtle: #80868b;
+
+  /* Accents (muted, Google-calibrated) */
+  --accent: #1a73e8;
+  --accent-soft: #e8f0fe;
+  --success: #137333;
+  --success-soft: #e6f4ea;
+  --warning: #b06000;
+  --warning-soft: #fef7e0;
+  --danger: #c5221f;
+  --danger-soft: #fce8e6;
+  --info: #1a73e8;
+  --info-soft: #e8f0fe;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.06), 0 1px 3px rgba(60, 64, 67, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d10;
+    --surface: #14171b;
+    --surface-elev: #191c20;
+    --surface-hover: #1f2328;
+
+    --border: #24272c;
+    --border-strong: #31353b;
+
+    --fg: #e8eaed;
+    --fg-muted: #9aa0a6;
+    --fg-subtle: #6a6f75;
+
+    --accent: #8ab4f8;
+    --accent-soft: #1a2336;
+    --success: #81c995;
+    --success-soft: #132b1b;
+    --warning: #fdd663;
+    --warning-soft: #2d2514;
+    --danger: #f28b82;
+    --danger-soft: #2c1915;
+    --info: #8ab4f8;
+    --info-soft: #1a2336;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-elev: var(--surface-elev);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv11", "ss01";
+  letter-spacing: -0.003em;
+}
+
+/* Subtle focus ring that respects theme */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar polish (WebKit) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-subtle);
+}
