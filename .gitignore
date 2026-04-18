@@ -51,3 +51,4 @@ batch_200_log.txt
 dashboard/.open-next/
 dashboard/node_modules/
 dashboard/.env.local
+dashboard/.wrangler/

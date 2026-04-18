@@ -76,29 +76,30 @@ function Histogram({
   buckets: { label: string; count: number }[];
 }) {
   const max = Math.max(...buckets.map((b) => b.count), 1);
+  const trackHeight = 192; // px
 
   return (
     <div className="space-y-4">
-      <div className="flex items-end gap-2 h-40 px-1">
+      <div className="flex items-end gap-2 px-1" style={{ height: trackHeight }}>
         {buckets.map((b) => {
-          const pct = (b.count / max) * 100;
+          const ratio = b.count / max;
+          const barPx = b.count > 0 ? Math.max(Math.round(ratio * trackHeight), 6) : 0;
           return (
             <div
               key={b.label}
-              className="flex-1 flex flex-col items-center justify-end gap-1.5 group"
+              className="flex-1 flex flex-col items-center justify-end"
+              style={{ height: trackHeight }}
             >
-              <span className="text-[11px] tabular-nums text-fg-muted opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="text-[11px] tabular-nums text-fg-muted mb-1">
                 {b.count}
               </span>
-              <div className="w-full relative rounded-t-md overflow-hidden bg-surface-elev">
-                <div
-                  className="w-full bg-accent/80 group-hover:bg-accent transition-colors rounded-t-md"
-                  style={{
-                    height: `${Math.max(pct, b.count > 0 ? 2 : 0)}%`,
-                    minHeight: b.count > 0 ? 3 : 0,
-                  }}
-                />
-              </div>
+              <div
+                className="w-full rounded-t-md"
+                style={{
+                  height: barPx,
+                  backgroundColor: "var(--accent)",
+                }}
+              />
             </div>
           );
         })}
@@ -107,9 +108,6 @@ function Histogram({
         {buckets.map((b) => (
           <div key={b.label} className="flex-1 text-center">
             <p className="text-[10px] text-fg-subtle">{b.label}</p>
-            <p className="text-[11px] tabular-nums text-fg-muted mt-0.5">
-              {b.count}
-            </p>
           </div>
         ))}
       </div>
