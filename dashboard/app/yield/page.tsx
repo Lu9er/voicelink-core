@@ -80,7 +80,7 @@ function Histogram({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-end gap-2 px-1" style={{ height: trackHeight }}>
+      <div className="flex items-end gap-3 px-1" style={{ height: trackHeight }}>
         {buckets.map((b) => {
           const ratio = b.count / max;
           const barPx = b.count > 0 ? Math.max(Math.round(ratio * trackHeight), 6) : 0;
@@ -90,24 +90,24 @@ function Histogram({
               className="flex-1 flex flex-col items-center justify-end"
               style={{ height: trackHeight }}
             >
-              <span className="text-[11px] tabular-nums text-fg-muted mb-1">
+              <span className="text-[11px] tabular-nums text-fg-muted mb-1.5 font-[family-name:var(--font-label)]">
                 {b.count}
               </span>
               <div
-                className="w-full rounded-t-md"
+                className="w-full rounded-t-lg"
                 style={{
                   height: barPx,
-                  backgroundColor: "var(--accent)",
+                  backgroundColor: "var(--secondary)",
                 }}
               />
             </div>
           );
         })}
       </div>
-      <div className="flex gap-2 px-1">
+      <div className="flex gap-3 px-1">
         {buckets.map((b) => (
           <div key={b.label} className="flex-1 text-center">
-            <p className="text-[10px] text-fg-subtle">{b.label}</p>
+            <p className="text-[10px] text-fg-subtle font-[family-name:var(--font-label)]">{b.label}</p>
           </div>
         ))}
       </div>
@@ -121,10 +121,10 @@ export default async function YieldPage() {
   if (!stats) {
     return (
       <div className="space-y-4">
-        <h1 className="text-[28px] leading-tight font-semibold tracking-tight">
+        <h1 className="text-[36px] leading-tight font-bold tracking-tight text-primary font-[family-name:var(--font-headline)]">
           Yield analytics
         </h1>
-        <p className="text-sm text-fg-muted">
+        <p className="text-sm text-fg-muted font-[family-name:var(--font-body)]">
           No processed recordings yet.
         </p>
       </div>
@@ -132,16 +132,16 @@ export default async function YieldPage() {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       {/* Hero */}
       <div>
-        <p className="text-xs font-medium text-fg-muted uppercase tracking-[0.1em]">
+        <p className="text-xs font-medium text-secondary uppercase tracking-[0.12em] font-[family-name:var(--font-body)]">
           Quality
         </p>
-        <h1 className="mt-2 text-[28px] leading-tight font-semibold tracking-tight">
+        <h1 className="mt-3 text-[36px] leading-tight font-bold tracking-tight text-primary font-[family-name:var(--font-headline)]">
           Yield analytics
         </h1>
-        <p className="mt-1 text-sm text-fg-muted max-w-2xl">
+        <p className="mt-2 text-sm text-fg-muted max-w-2xl font-[family-name:var(--font-body)]">
           How much usable speech we retain from each recording after
           voice-activity detection and filtering.
         </p>
@@ -149,7 +149,7 @@ export default async function YieldPage() {
 
       {/* Primary stats */}
       <Section title="Headline" description="Based on processed recordings only.">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           <StatCard
             label="Files processed"
             value={stats.count.toLocaleString()}
@@ -175,7 +175,7 @@ export default async function YieldPage() {
 
       {/* Secondary stats */}
       <Section title="Clip geometry">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           <StatCard
             label="Total clips"
             value={stats.totalClips.toLocaleString()}
@@ -188,35 +188,35 @@ export default async function YieldPage() {
             label="Avg clip length"
             value={`${stats.avgClipLength.toFixed(1)}s`}
           />
-          <div className="rounded-xl border border-border bg-surface p-5">
-            <p className="text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+          <div className="rounded-2xl bg-surface-lowest p-8">
+            <p className="text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
               Yield bands
             </p>
-            <div className="mt-3 space-y-1.5">
+            <div className="mt-4 space-y-2.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-1.5 text-fg">
-                  <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                <span className="flex items-center gap-2 text-fg font-[family-name:var(--font-body)]">
+                  <span className="h-2 w-2 rounded-full bg-tertiary" />
                   High (&gt;50%)
                 </span>
-                <span className="tabular-nums text-fg-muted">
+                <span className="tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                   {stats.high}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-1.5 text-fg">
-                  <span className="h-1.5 w-1.5 rounded-full bg-warning" />
-                  Mid (20–50%)
+                <span className="flex items-center gap-2 text-fg font-[family-name:var(--font-body)]">
+                  <span className="h-2 w-2 rounded-full bg-warning" />
+                  Mid (20-50%)
                 </span>
-                <span className="tabular-nums text-fg-muted">
+                <span className="tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                   {stats.medium}
                 </span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-1.5 text-fg">
-                  <span className="h-1.5 w-1.5 rounded-full bg-danger" />
+                <span className="flex items-center gap-2 text-fg font-[family-name:var(--font-body)]">
+                  <span className="h-2 w-2 rounded-full bg-danger" />
                   Low (&lt;20%)
                 </span>
-                <span className="tabular-nums text-fg-muted">
+                <span className="tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                   {stats.low}
                 </span>
               </div>
@@ -230,42 +230,44 @@ export default async function YieldPage() {
         title="Yield distribution"
         description="How files are distributed across yield buckets."
       >
-        <div className="rounded-xl border border-border bg-surface p-6">
+        <div className="rounded-2xl bg-surface-lowest p-8">
           <Histogram buckets={stats.buckets} />
         </div>
       </Section>
 
       {/* Top and bottom */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-8">
         <Section title="Top 10 by yield">
-          <div className="rounded-xl border border-border bg-surface overflow-hidden">
+          <div className="rounded-2xl bg-surface-lowest overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left border-b border-border">
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <tr className="text-left bg-surface-low">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     ID
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Yield
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Clips
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {stats.top10.map((r) => (
+                {stats.top10.map((r, i) => (
                   <tr
                     key={r.id}
-                    className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                    className={`transition-colors hover:bg-surface-hover ${
+                      i % 2 === 1 ? "bg-surface-low/50" : ""
+                    }`}
                   >
-                    <td className="px-4 py-2 font-mono text-xs text-fg-muted">
+                    <td className="px-5 py-3 text-xs text-fg-muted font-[family-name:var(--font-label)]">
                       {r.id.slice(0, 8)}
                     </td>
-                    <td className="px-4 py-2 tabular-nums text-success">
+                    <td className="px-5 py-3 tabular-nums text-tertiary font-[family-name:var(--font-label)]">
                       {((r.speech_yield ?? 0) * 100).toFixed(1)}%
                     </td>
-                    <td className="px-4 py-2 tabular-nums text-fg">
+                    <td className="px-5 py-3 tabular-nums text-fg font-[family-name:var(--font-label)]">
                       {r.clip_count}
                     </td>
                   </tr>
@@ -276,34 +278,36 @@ export default async function YieldPage() {
         </Section>
 
         <Section title="Bottom 10 by yield">
-          <div className="rounded-xl border border-border bg-surface overflow-hidden">
+          <div className="rounded-2xl bg-surface-lowest overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left border-b border-border">
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <tr className="text-left bg-surface-low">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     ID
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Yield
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Clips
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {stats.bottom10.map((r) => (
+                {stats.bottom10.map((r, i) => (
                   <tr
                     key={r.id}
-                    className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                    className={`transition-colors hover:bg-surface-hover ${
+                      i % 2 === 1 ? "bg-surface-low/50" : ""
+                    }`}
                   >
-                    <td className="px-4 py-2 font-mono text-xs text-fg-muted">
+                    <td className="px-5 py-3 text-xs text-fg-muted font-[family-name:var(--font-label)]">
                       {r.id.slice(0, 8)}
                     </td>
-                    <td className="px-4 py-2 tabular-nums text-danger">
+                    <td className="px-5 py-3 tabular-nums text-danger font-[family-name:var(--font-label)]">
                       {((r.speech_yield ?? 0) * 100).toFixed(1)}%
                     </td>
-                    <td className="px-4 py-2 tabular-nums text-fg">
+                    <td className="px-5 py-3 tabular-nums text-fg font-[family-name:var(--font-label)]">
                       {r.clip_count}
                     </td>
                   </tr>

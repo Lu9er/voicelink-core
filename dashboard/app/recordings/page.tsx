@@ -42,34 +42,34 @@ export default async function RecordingsPage({
   const totalPages = Math.ceil((count ?? 0) / perPage);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-[28px] leading-tight font-semibold tracking-tight">
+          <h1 className="text-[36px] leading-tight font-bold tracking-tight text-primary font-[family-name:var(--font-headline)]">
             Recordings
           </h1>
-          <p className="mt-1 text-sm text-fg-muted">
+          <p className="mt-2 text-sm text-fg-muted font-[family-name:var(--font-body)]">
             Every recording ingested into the pipeline, newest first.
           </p>
         </div>
-        <span className="text-sm text-fg-muted tabular-nums">
+        <span className="text-sm text-fg-muted tabular-nums font-[family-name:var(--font-label)]">
           {count?.toLocaleString() ?? 0} total
         </span>
       </div>
 
       {/* Filter chips */}
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {FILTERS.map((f) => {
           const active = status === f.key;
           return (
             <Link
               key={f.key}
               href={`/recordings?status=${f.key}`}
-              className={`inline-flex items-center rounded-full border px-3 py-1 text-xs transition-colors ${
+              className={`inline-flex items-center rounded-full px-4 py-1.5 text-xs font-medium transition-colors font-[family-name:var(--font-body)] ${
                 active
-                  ? "bg-fg text-bg border-fg"
-                  : "border-border text-fg-muted hover:border-border-strong hover:text-fg"
+                  ? "bg-primary text-white"
+                  : "bg-surface-low text-fg-muted hover:bg-surface-container hover:text-fg"
               }`}
             >
               {f.label}
@@ -79,30 +79,30 @@ export default async function RecordingsPage({
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-border bg-surface overflow-hidden">
+      <div className="rounded-2xl bg-surface-lowest overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-border">
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+              <tr className="text-left bg-surface-low">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   ID
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Status
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Duration
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Yield
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Clips
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Speech
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Created
                 </th>
               </tr>
@@ -112,34 +112,36 @@ export default async function RecordingsPage({
                 <tr>
                   <td
                     colSpan={7}
-                    className="px-4 py-10 text-center text-sm text-fg-subtle"
+                    className="px-5 py-12 text-center text-sm text-fg-subtle"
                   >
                     No recordings match this filter.
                   </td>
                 </tr>
               ) : (
-                (recordings ?? []).map((r) => (
+                (recordings ?? []).map((r, i) => (
                   <tr
                     key={r.id}
-                    className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                    className={`transition-colors hover:bg-surface-hover ${
+                      i % 2 === 1 ? "bg-surface-low/50" : ""
+                    }`}
                   >
-                    <td className="px-4 py-2.5 font-mono text-xs text-fg-muted">
+                    <td className="px-5 py-3 text-xs text-fg-muted font-[family-name:var(--font-label)]">
                       {r.id.slice(0, 8)}
                     </td>
-                    <td className="px-4 py-2.5">
+                    <td className="px-5 py-3">
                       <StatusBadge status={r.status} />
                     </td>
-                    <td className="px-4 py-2.5 tabular-nums text-fg-muted">
+                    <td className="px-5 py-3 tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                       {r.duration_seconds
                         ? `${(r.duration_seconds / 60).toFixed(0)}m`
-                        : "—"}
+                        : "--"}
                     </td>
-                    <td className="px-4 py-2.5 tabular-nums">
+                    <td className="px-5 py-3 tabular-nums font-[family-name:var(--font-label)]">
                       {r.speech_yield != null ? (
                         <span
                           className={
                             r.speech_yield > 0.5
-                              ? "text-success"
+                              ? "text-tertiary"
                               : r.speech_yield > 0.2
                                 ? "text-warning"
                                 : "text-danger"
@@ -148,21 +150,21 @@ export default async function RecordingsPage({
                           {(r.speech_yield * 100).toFixed(1)}%
                         </span>
                       ) : (
-                        <span className="text-fg-subtle">—</span>
+                        <span className="text-fg-subtle">--</span>
                       )}
                     </td>
-                    <td className="px-4 py-2.5 tabular-nums text-fg">
-                      {r.clip_count ?? "—"}
+                    <td className="px-5 py-3 tabular-nums text-fg font-[family-name:var(--font-label)]">
+                      {r.clip_count ?? "--"}
                     </td>
-                    <td className="px-4 py-2.5 tabular-nums text-fg-muted">
+                    <td className="px-5 py-3 tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                       {r.speech_seconds
                         ? `${(r.speech_seconds / 60).toFixed(0)}m`
-                        : "—"}
+                        : "--"}
                     </td>
-                    <td className="px-4 py-2.5 text-xs text-fg-subtle">
+                    <td className="px-5 py-3 text-xs text-fg-subtle font-[family-name:var(--font-body)]">
                       {r.created_at
                         ? new Date(r.created_at).toLocaleDateString()
-                        : "—"}
+                        : "--"}
                     </td>
                   </tr>
                 ))
@@ -174,32 +176,32 @@ export default async function RecordingsPage({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-3">
           {page > 1 ? (
             <Link
               href={`/recordings?status=${status}&page=${page - 1}`}
-              className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-muted hover:text-fg hover:border-border-strong transition-colors"
+              className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-muted hover:text-fg hover:bg-surface-container transition-colors font-[family-name:var(--font-body)]"
             >
-              ← Prev
+              Prev
             </Link>
           ) : (
-            <span className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-subtle opacity-50 cursor-default">
-              ← Prev
+            <span className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-subtle opacity-50 cursor-default font-[family-name:var(--font-body)]">
+              Prev
             </span>
           )}
-          <span className="px-3 py-1.5 text-xs text-fg-muted tabular-nums">
+          <span className="px-3 py-2 text-xs text-fg-muted tabular-nums font-[family-name:var(--font-label)]">
             Page {page} of {totalPages}
           </span>
           {page < totalPages ? (
             <Link
               href={`/recordings?status=${status}&page=${page + 1}`}
-              className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-muted hover:text-fg hover:border-border-strong transition-colors"
+              className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-muted hover:text-fg hover:bg-surface-container transition-colors font-[family-name:var(--font-body)]"
             >
-              Next →
+              Next
             </Link>
           ) : (
-            <span className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-subtle opacity-50 cursor-default">
-              Next →
+            <span className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-subtle opacity-50 cursor-default font-[family-name:var(--font-body)]">
+              Next
             </span>
           )}
         </div>

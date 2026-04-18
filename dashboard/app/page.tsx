@@ -87,13 +87,13 @@ function YieldPill({ value }: { value: number }) {
   const tone = yieldTone(value);
   const cls =
     tone === "success"
-      ? "bg-success-soft text-success"
+      ? "bg-success-soft text-tertiary"
       : tone === "warning"
         ? "bg-warning-soft text-warning"
         : "bg-danger-soft text-danger";
   return (
     <span
-      className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium tabular-nums ${cls}`}
+      className={`inline-flex items-center rounded-md px-1.5 py-0.5 text-[11px] font-medium tabular-nums font-[family-name:var(--font-label)] ${cls}`}
     >
       {(value * 100).toFixed(1)}%
     </span>
@@ -104,16 +104,16 @@ export default async function OverviewPage() {
   const stats = await getStats();
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       {/* Hero */}
-      <div className="flex flex-col gap-2">
-        <p className="text-xs font-medium text-fg-muted uppercase tracking-[0.1em]">
+      <div className="flex flex-col gap-3">
+        <p className="text-xs font-medium text-secondary uppercase tracking-[0.12em] font-[family-name:var(--font-body)]">
           VoiceLink Uganda
         </p>
-        <h1 className="text-[28px] leading-tight font-semibold tracking-tight">
+        <h1 className="text-[36px] leading-tight font-bold tracking-tight text-primary font-[family-name:var(--font-headline)]">
           Ingestion Overview
         </h1>
-        <p className="text-sm text-fg-muted max-w-2xl">
+        <p className="text-sm text-fg-muted max-w-2xl font-[family-name:var(--font-body)]">
           Live view of recordings entering the pipeline, their processing
           state, and the clips produced for quality review.
         </p>
@@ -158,7 +158,7 @@ export default async function OverviewPage() {
         title="Key metrics"
         description="Totals across the pipeline, updated on page load."
       >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           <StatCard
             label="Speech hours retained"
             value={stats.totalSpeechHours.toFixed(1)}
@@ -190,25 +190,25 @@ export default async function OverviewPage() {
       </Section>
 
       {/* Recent activity */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-8">
         <Section
           title="Recently processed"
           description="The eight most recent processed recordings."
         >
-          <div className="rounded-xl border border-border bg-surface overflow-hidden">
+          <div className="rounded-2xl bg-surface-lowest overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left border-b border-border">
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <tr className="text-left bg-surface-low">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Recording
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Yield
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Clips
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Speech
                   </th>
                 </tr>
@@ -218,27 +218,29 @@ export default async function OverviewPage() {
                   <tr>
                     <td
                       colSpan={4}
-                      className="px-4 py-8 text-center text-sm text-fg-subtle"
+                      className="px-5 py-10 text-center text-sm text-fg-subtle"
                     >
                       No processed recordings yet.
                     </td>
                   </tr>
                 ) : (
-                  stats.recentProcessed.map((r) => (
+                  stats.recentProcessed.map((r, i) => (
                     <tr
                       key={r.id}
-                      className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                      className={`transition-colors hover:bg-surface-hover ${
+                        i % 2 === 1 ? "bg-surface-low/50" : ""
+                      }`}
                     >
-                      <td className="px-4 py-2.5 font-mono text-xs text-fg-muted">
+                      <td className="px-5 py-3 text-xs text-fg-muted font-[family-name:var(--font-label)]">
                         {r.id.slice(0, 8)}
                       </td>
-                      <td className="px-4 py-2.5">
+                      <td className="px-5 py-3">
                         <YieldPill value={r.speech_yield ?? 0} />
                       </td>
-                      <td className="px-4 py-2.5 tabular-nums text-fg">
+                      <td className="px-5 py-3 tabular-nums text-fg font-[family-name:var(--font-label)]">
                         {r.clip_count ?? 0}
                       </td>
-                      <td className="px-4 py-2.5 tabular-nums text-fg-muted">
+                      <td className="px-5 py-3 tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                         {((r.speech_seconds ?? 0) / 60).toFixed(0)}m
                       </td>
                     </tr>
@@ -253,14 +255,14 @@ export default async function OverviewPage() {
           title="Recent failures"
           description="Real failures only · archived Ateso excluded."
         >
-          <div className="rounded-xl border border-border bg-surface overflow-hidden">
+          <div className="rounded-2xl bg-surface-lowest overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left border-b border-border">
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <tr className="text-left bg-surface-low">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Recording
                   </th>
-                  <th className="px-4 py-2.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                  <th className="px-5 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                     Reason
                   </th>
                 </tr>
@@ -270,27 +272,29 @@ export default async function OverviewPage() {
                   <tr>
                     <td
                       colSpan={2}
-                      className="px-4 py-8 text-center text-sm text-fg-subtle"
+                      className="px-5 py-10 text-center text-sm text-fg-subtle"
                     >
                       No recent failures.
                     </td>
                   </tr>
                 ) : (
-                  stats.recentFailed.map((r) => (
+                  stats.recentFailed.map((r, i) => (
                     <tr
                       key={r.id}
-                      className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                      className={`transition-colors hover:bg-surface-hover ${
+                        i % 2 === 1 ? "bg-surface-low/50" : ""
+                      }`}
                     >
-                      <td className="px-4 py-2.5 font-mono text-xs text-fg-muted align-top whitespace-nowrap">
+                      <td className="px-5 py-3 text-xs text-fg-muted align-top whitespace-nowrap font-[family-name:var(--font-label)]">
                         {r.id.slice(0, 8)}
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-fg-muted leading-relaxed">
+                      <td className="px-5 py-3 text-xs text-fg-muted leading-relaxed font-[family-name:var(--font-body)]">
                         {r.failure_reason
                           ?.split(":")[0]
                           ?.trim() || "Unknown"}
                         <span className="block mt-0.5 text-fg-subtle truncate max-w-xs">
                           {r.failure_reason?.slice(0, 80)}
-                          {(r.failure_reason?.length ?? 0) > 80 ? "…" : ""}
+                          {(r.failure_reason?.length ?? 0) > 80 ? "..." : ""}
                         </span>
                       </td>
                     </tr>

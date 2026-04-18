@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope, Inter, Space_Grotesk } from "next/font/google";
 import Nav from "./components/Nav";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -27,19 +32,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-fg">
         <Nav />
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-6 sm:px-8 lg:px-10 py-10">
           {children}
         </main>
-        <footer className="border-t border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center justify-between">
-            <p className="text-xs text-fg-subtle">
+        <footer className="bg-surface-low">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-6 flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center justify-between">
+            <p className="text-xs text-fg-subtle font-[family-name:var(--font-body)]">
               VoiceLink Uganda · Read-only ingestion view
             </p>
-            <p className="text-[11px] text-fg-subtle tracking-wide">
+            <p className="text-[11px] text-fg-subtle tracking-wide font-[family-name:var(--font-body)]">
               Data served by Supabase · Theme follows your system preference
             </p>
           </div>

@@ -12,14 +12,14 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="space-y-3">
+    <section className="space-y-5">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-[13px] font-semibold text-fg tracking-tight">
+          <h2 className="text-base font-semibold text-primary tracking-tight font-[family-name:var(--font-headline)]">
             {title}
           </h2>
           {description && (
-            <p className="mt-0.5 text-xs text-fg-subtle">{description}</p>
+            <p className="mt-1 text-sm text-fg-subtle font-[family-name:var(--font-body)]">{description}</p>
           )}
         </div>
         {action}

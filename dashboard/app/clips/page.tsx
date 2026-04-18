@@ -51,42 +51,42 @@ export default async function ClipsPage({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="text-[28px] leading-tight font-semibold tracking-tight">
+          <h1 className="text-[36px] leading-tight font-bold tracking-tight text-primary font-[family-name:var(--font-headline)]">
             Clips
           </h1>
-          <p className="mt-1 text-sm text-fg-muted">
+          <p className="mt-2 text-sm text-fg-muted font-[family-name:var(--font-body)]">
             Segmented speech extracted from processed recordings.
           </p>
         </div>
-        <span className="text-sm text-fg-muted tabular-nums">
+        <span className="text-sm text-fg-muted tabular-nums font-[family-name:var(--font-label)]">
           {totalAll.toLocaleString()} total
         </span>
       </div>
 
       {/* Filter chips with counts */}
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {filters.map((f) => {
           const active = status === f.key;
           return (
             <Link
               key={f.key}
               href={`/clips?status=${f.key}`}
-              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs transition-colors ${
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium transition-colors font-[family-name:var(--font-body)] ${
                 active
-                  ? "bg-fg text-bg border-fg"
-                  : "border-border text-fg-muted hover:border-border-strong hover:text-fg"
+                  ? "bg-primary text-white"
+                  : "bg-surface-low text-fg-muted hover:bg-surface-container hover:text-fg"
               }`}
             >
               <span>{f.label}</span>
               <span
-                className={`text-[10px] tabular-nums rounded-full px-1.5 py-0.5 ${
+                className={`text-[10px] tabular-nums rounded-full px-1.5 py-0.5 font-[family-name:var(--font-label)] ${
                   active
-                    ? "bg-bg/20 text-bg"
-                    : "bg-surface-elev text-fg-subtle"
+                    ? "bg-white/20 text-white"
+                    : "bg-surface-container text-fg-subtle"
                 }`}
               >
                 {f.count.toLocaleString()}
@@ -97,27 +97,27 @@ export default async function ClipsPage({
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-border bg-surface overflow-hidden">
+      <div className="rounded-2xl bg-surface-lowest overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-border">
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+              <tr className="text-left bg-surface-low">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Clip ID
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Recording
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Duration
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Status
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Transcript
                 </th>
-                <th className="px-4 py-3 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em]">
+                <th className="px-5 py-3.5 text-[11px] font-medium text-fg-muted uppercase tracking-[0.08em] font-[family-name:var(--font-body)]">
                   Created
                 </th>
               </tr>
@@ -127,40 +127,42 @@ export default async function ClipsPage({
                 <tr>
                   <td
                     colSpan={6}
-                    className="px-4 py-10 text-center text-sm text-fg-subtle"
+                    className="px-5 py-12 text-center text-sm text-fg-subtle"
                   >
                     No clips match this filter.
                   </td>
                 </tr>
               ) : (
-                (clips ?? []).map((c) => (
+                (clips ?? []).map((c, i) => (
                   <tr
                     key={c.id}
-                    className="border-b border-border last:border-0 hover:bg-surface-hover transition-colors"
+                    className={`transition-colors hover:bg-surface-hover ${
+                      i % 2 === 1 ? "bg-surface-low/50" : ""
+                    }`}
                   >
-                    <td className="px-4 py-2.5 font-mono text-xs text-fg-muted">
+                    <td className="px-5 py-3 text-xs text-fg-muted font-[family-name:var(--font-label)]">
                       {c.id.slice(0, 8)}
                     </td>
-                    <td className="px-4 py-2.5 font-mono text-xs text-fg-subtle">
+                    <td className="px-5 py-3 text-xs text-fg-subtle font-[family-name:var(--font-label)]">
                       {c.recording_id.slice(0, 8)}
                     </td>
-                    <td className="px-4 py-2.5 tabular-nums text-fg-muted">
+                    <td className="px-5 py-3 tabular-nums text-fg-muted font-[family-name:var(--font-label)]">
                       {c.duration_seconds?.toFixed(1)}s
                     </td>
-                    <td className="px-4 py-2.5">
+                    <td className="px-5 py-3">
                       <StatusBadge status={c.status} />
                     </td>
-                    <td className="px-4 py-2.5 text-xs text-fg-muted max-w-sm truncate">
+                    <td className="px-5 py-3 text-xs text-fg-muted max-w-sm truncate font-[family-name:var(--font-body)]">
                       {c.transcript ?? (
                         <span className="text-fg-subtle italic">
                           No transcript
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-2.5 text-xs text-fg-subtle whitespace-nowrap">
+                    <td className="px-5 py-3 text-xs text-fg-subtle whitespace-nowrap font-[family-name:var(--font-body)]">
                       {c.created_at
                         ? new Date(c.created_at).toLocaleDateString()
-                        : "—"}
+                        : "--"}
                     </td>
                   </tr>
                 ))
@@ -172,32 +174,32 @@ export default async function ClipsPage({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-3">
           {page > 1 ? (
             <Link
               href={`/clips?status=${status}&page=${page - 1}`}
-              className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-muted hover:text-fg hover:border-border-strong transition-colors"
+              className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-muted hover:text-fg hover:bg-surface-container transition-colors font-[family-name:var(--font-body)]"
             >
-              ← Prev
+              Prev
             </Link>
           ) : (
-            <span className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-subtle opacity-50 cursor-default">
-              ← Prev
+            <span className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-subtle opacity-50 cursor-default font-[family-name:var(--font-body)]">
+              Prev
             </span>
           )}
-          <span className="px-3 py-1.5 text-xs text-fg-muted tabular-nums">
+          <span className="px-3 py-2 text-xs text-fg-muted tabular-nums font-[family-name:var(--font-label)]">
             Page {page} of {totalPages}
           </span>
           {page < totalPages ? (
             <Link
               href={`/clips?status=${status}&page=${page + 1}`}
-              className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-muted hover:text-fg hover:border-border-strong transition-colors"
+              className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-muted hover:text-fg hover:bg-surface-container transition-colors font-[family-name:var(--font-body)]"
             >
-              Next →
+              Next
             </Link>
           ) : (
-            <span className="px-3 py-1.5 text-xs rounded-md border border-border text-fg-subtle opacity-50 cursor-default">
-              Next →
+            <span className="px-4 py-2 text-xs rounded-lg bg-surface-low text-fg-subtle opacity-50 cursor-default font-[family-name:var(--font-body)]">
+              Next
             </span>
           )}
         </div>
