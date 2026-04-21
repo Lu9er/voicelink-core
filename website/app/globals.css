@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------
+   Neuravox Design Tokens
+   Light by default, auto-swap to dark on system preference.
+-------------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --bg: #f8f9ff;
+  --surface: #f8f9ff;
+  --surface-low: #eff4ff;
+  --surface-container: #e5eeff;
+  --surface-high: #dce9ff;
+  --surface-highest: #d3e4fe;
+  --surface-lowest: #ffffff;
+  --surface-elev: #eff4ff;
+  --surface-hover: #dce9ff;
+
+  /* Borders — ghost borders only */
+  --border: rgba(117, 118, 130, 0.15);
+  --border-strong: rgba(117, 118, 130, 0.25);
+
+  /* Foreground (text) */
+  --fg: #0b1c30;
+  --fg-muted: #444651;
+  --fg-subtle: #757682;
+
+  /* Primary palette */
+  --primary: #00236f;
+  --primary-soft: #e5eeff;
+  --secondary: #0058be;
+  --tertiary: #00312c;
+
+  /* Accents (mapped semantically) */
+  --accent: #0058be;
+  --accent-soft: #e5eeff;
+  --success: #00312c;
+  --success-soft: #e6f4ea;
+  --warning: #F59E0B;
+  --warning-soft: #fef7e0;
+  --danger: #ba1a1a;
+  --danger-soft: #fce8e6;
+  --info: #0058be;
+  --info-soft: #e5eeff;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0, 35, 111, 0.04), 0 1px 2px rgba(0, 35, 111, 0.02);
+  --shadow-md: 0 4px 12px rgba(0, 35, 111, 0.06), 0 1px 3px rgba(0, 35, 111, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1020;
+    --surface: #111827;
+    --surface-low: #151d2e;
+    --surface-container: #1a2338;
+    --surface-high: #1f2a42;
+    --surface-highest: #24314c;
+    --surface-lowest: #080c18;
+    --surface-elev: #151d2e;
+    --surface-hover: #1f2a42;
+
+    --border: rgba(197, 197, 211, 0.12);
+    --border-strong: rgba(197, 197, 211, 0.2);
+
+    --fg: #e0e8f8;
+    --fg-muted: #9aa4b8;
+    --fg-subtle: #6b7280;
+
+    --primary: #b6c4ff;
+    --primary-soft: #1a2336;
+    --secondary: #8ab4f8;
+    --tertiary: #6ee7b7;
+
+    --accent: #8ab4f8;
+    --accent-soft: #1a2336;
+    --success: #6ee7b7;
+    --success-soft: #132b1b;
+    --warning: #fdd663;
+    --warning-soft: #2d2514;
+    --danger: #f28b82;
+    --danger-soft: #2c1915;
+    --info: #8ab4f8;
+    --info-soft: #1a2336;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-low: var(--surface-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-surface-lowest: var(--surface-lowest);
+  --color-surface-elev: var(--surface-elev);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --font-headline: var(--font-manrope);
+  --font-body: var(--font-inter);
+  --font-label: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-space-grotesk);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* Subtle focus ring that respects theme */
+*:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar polish (WebKit) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-subtle);
+}

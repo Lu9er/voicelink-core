@@ -99,11 +99,19 @@ def process_chunk(chunk: list[dict], progress: dict) -> None:
             f"Processing {rid[:8]}... ({rec.get('duration_seconds', 0):.0f}s)"
         )
 
-        try:
-            result = process_one(rid, cfg)
-        except Exception as e:
-            result = "failed"
-            log.error(f"  Unhandled error: {e}")
+        max_retries = 2
+        for attempt in range(max_retries + 1):
+            try:
+                result = process_one(rid, cfg)
+                break
+            except Exception as e:
+                if attempt < max_retries:
+                    wait = 2 ** (attempt + 1)
+                    log.warning(f"  Attempt {attempt + 1} failed: {e}. Retrying in {wait}s...")
+                    time.sleep(wait)
+                else:
+                    result = "failed"
+                    log.error(f"  Unhandled error after {max_retries + 1} attempts: {e}")
 
         elapsed = round(time.time() - t0, 1)
         progress["total_attempted"] += 1
