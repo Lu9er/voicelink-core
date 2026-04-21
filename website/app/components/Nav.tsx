@@ -9,6 +9,7 @@ const links = [
   { href: "/about", label: "About" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/partners", label: "Partners" },
+  { href: "/progress", label: "Progress" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -33,14 +34,6 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          <a
-            href="https://pipeline.voicelink.cloud"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-semibold text-surface-lowest bg-primary px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-[family-name:var(--font-body)]"
-          >
-            Live Dashboard
-          </a>
         </div>
 
         {/* Mobile menu toggle */}
@@ -72,14 +65,6 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
-          <a
-            href="https://pipeline.voicelink.cloud"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block text-sm font-semibold text-surface-lowest bg-primary px-5 py-2.5 rounded-lg text-center font-[family-name:var(--font-body)]"
-          >
-            Live Dashboard
-          </a>
         </div>
       )}
     </nav>

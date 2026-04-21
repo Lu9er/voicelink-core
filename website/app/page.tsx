@@ -58,14 +58,12 @@ export default function Home() {
               >
                 How It Works
               </Link>
-              <a
-                href="https://pipeline.voicelink.cloud"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/progress"
                 className="inline-flex items-center px-7 py-3 text-sm font-semibold text-primary bg-primary-soft rounded-lg hover:bg-surface-container transition-colors font-[family-name:var(--font-body)]"
               >
-                View Live Dashboard
-              </a>
+                View Progress
+              </Link>
             </div>
           </div>
         </div>
