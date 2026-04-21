@@ -19,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "VoiceLink — Ingestion Pipeline",
+  title: "VoiceLink - Ingestion Pipeline",
   description:
     "Read-only dashboard for the VoiceLink speech data ingestion pipeline.",
 };

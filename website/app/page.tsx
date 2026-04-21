@@ -126,13 +126,22 @@ export default function Home() {
       <section className="bg-bg">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-20 sm:py-24">
           <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4 font-[family-name:var(--font-headline)]">
-            Our partners
+            Our funder and partners
           </h2>
           <p className="text-fg-muted mb-12 max-w-2xl font-[family-name:var(--font-body)]">
-            VoiceLink works directly with established radio stations who serve their language
-            communities, providing call analytics and audience insights in exchange for speech data contribution.
+            VoiceLink is supported by the Mozilla Foundation and works directly with established
+            radio stations who serve their language communities.
           </p>
-          <div className="flex flex-wrap items-center gap-12 sm:gap-16">
+          <div className="flex flex-wrap items-center gap-8 sm:gap-12">
+            <div className="bg-surface-low rounded-2xl p-8 flex items-center justify-center w-48 h-28">
+              <Image
+                src="/mozilla-logo.png"
+                alt="Mozilla Foundation"
+                width={160}
+                height={60}
+                className="object-contain max-h-16"
+              />
+            </div>
             <div className="bg-surface-low rounded-2xl p-8 flex items-center justify-center w-48 h-28">
               <Image
                 src="/cbs-logo.png"

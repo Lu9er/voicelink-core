@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About — VoiceLink",
+  title: "About - VoiceLink",
   description:
     "VoiceLink addresses the critical shortage of speech data for African languages by partnering with radio stations to build open datasets.",
 };

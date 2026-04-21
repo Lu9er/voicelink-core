@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Partners — VoiceLink",
+  title: "Partners - VoiceLink",
   description:
     "VoiceLink partners with CBS Radio 88.8 FM and Voice of Teso 88.4 FM to build open speech datasets for Luganda and Ateso.",
 };

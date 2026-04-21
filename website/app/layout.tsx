@@ -20,11 +20,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "VoiceLink Uganda — Radio Call Integration for Multilingual Speech Data Collection",
+  title: "VoiceLink Uganda - Radio Call Integration for Multilingual Speech Data Collection",
   description:
     "VoiceLink integrates with radio stations to capture natural speech for Mozilla Common Voice while providing stations with call analytics. Open-source, community-owned. A Neuravox project.",
   openGraph: {
-    title: "VoiceLink Uganda — Multilingual Speech Data Collection",
+    title: "VoiceLink Uganda - Multilingual Speech Data Collection",
     description:
       "Radio call integration for multilingual speech data collection across Uganda. Open-source infrastructure by Neuravox, supported by Mozilla.",
     url: "https://voicelink.cloud",

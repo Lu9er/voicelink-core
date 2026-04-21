@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How It Works — VoiceLink",
+  title: "How It Works - VoiceLink",
   description:
     "From radio archive to open speech dataset: how VoiceLink processes broadcast audio into structured speech data.",
 };
