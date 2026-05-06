@@ -92,8 +92,8 @@ export default function ContactPage() {
                 >
                   Neuravox
                 </a>
-                , a Community Interest Company focused on ethical AI governance, public interest
-                technology, and community-led innovation across Africa.
+                , an independent public interest organisation dedicated to research, public
+                policy, and community-led innovation at the frontier of technology.
               </p>
               <p>
                 For general enquiries about Neuravox and its broader work, visit{" "}

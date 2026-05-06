@@ -172,8 +172,8 @@ export default function AboutPage() {
                 >
                   Neuravox
                 </a>
-                , a Community Interest Company based in Kampala, Uganda, focused on ethical AI
-                governance, public interest technology, and community-led innovation across Africa.
+                , an independent public interest organisation dedicated to research, public
+                policy, and community-led innovation at the frontier of technology.
                 The project is led by Gideon Abako.
               </p>
               <p>

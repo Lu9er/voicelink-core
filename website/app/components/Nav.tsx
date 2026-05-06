@@ -21,6 +21,9 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <Image src="/logo-nav.png" alt="VoiceLink" width={32} height={32} className="h-8 w-8" priority />
+          <span className="text-[15px] font-semibold text-primary tracking-tight font-[family-name:var(--font-headline)]">
+            VoiceLink Uganda
+          </span>
         </Link>
 
         {/* Desktop links */}

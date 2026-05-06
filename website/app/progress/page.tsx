@@ -16,16 +16,9 @@ const milestones = [
   },
   {
     date: "April 2026",
-    title: "CBS Radio partnership signed",
-    description:
-      "Signed partnership agreement with CBS Radio 88.8 FM, Uganda's largest cultural radio institution, for access to broadcast archives and live call-in audio in Luganda.",
-    active: false,
-  },
-  {
-    date: "April 2026",
     title: "Luganda archive data ingestion and processing completed",
     description:
-      "Ingested approximately 1,900 one-hour broadcast recordings from the CBS Radio archives. Processed over 512 hours of retained Luganda speech, generating more than 128,000 individual speech clips with an aggregate yield of 68.4%.",
+      "Processed over 512 hours of retained Luganda speech from the CBS Radio archives, generating more than 128,000 individual speech clips with an aggregate yield of 68.4%.",
     active: false,
   },
   {
@@ -36,10 +29,17 @@ const milestones = [
     active: false,
   },
   {
-    date: "February 2026",
-    title: "Voice of Teso partnership signed",
+    date: "April 2026",
+    title: "CBS Radio archive ingestion started",
     description:
-      "Signed partnership with Voice of Teso 88.4 FM in Soroti for Ateso language data collection, extending the pipeline to a second language and station.",
+      "Ingested approximately 1,900 one-hour broadcast recordings from CBS Radio 88.8 FM into cloud storage with full deduplication and metadata tracking.",
+    active: false,
+  },
+  {
+    date: "April 2026",
+    title: "CBS Radio partnership signed",
+    description:
+      "Signed partnership agreement with CBS Radio 88.8 FM, Uganda's largest cultural radio institution, for access to broadcast archives and live call-in audio in Luganda.",
     active: false,
   },
   {
@@ -54,6 +54,13 @@ const milestones = [
     title: "Audio processing pipeline built",
     description:
       "Completed the end-to-end processing pipeline: archive ingestion, voice activity detection, speech segmentation, clip generation, and quality gating. Validated with initial yield tests showing strong speech retention.",
+    active: false,
+  },
+  {
+    date: "February 2026",
+    title: "Voice of Teso partnership signed",
+    description:
+      "Signed partnership with Voice of Teso 88.4 FM in Soroti for Ateso language data collection, extending the pipeline to a second language and station.",
     active: false,
   },
   {
