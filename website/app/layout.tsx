@@ -20,9 +20,15 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://voicelink.cloud"),
   title: "VoiceLink Uganda - Radio Call Integration for Multilingual Speech Data Collection",
   description:
     "VoiceLink integrates with radio stations to capture natural speech for Mozilla Common Voice while providing stations with call analytics. Open-source, community-owned. A Neuravox project.",
+  keywords: [
+    "VoiceLink", "Uganda", "speech data", "Luganda", "Ateso", "African languages",
+    "Mozilla Common Voice", "radio", "speech recognition", "NLP", "Neuravox",
+    "open source", "language technology", "CBS Radio", "Voice of Teso",
+  ],
   openGraph: {
     title: "VoiceLink Uganda - Multilingual Speech Data Collection",
     description:
@@ -30,6 +36,15 @@ export const metadata: Metadata = {
     url: "https://voicelink.cloud",
     siteName: "VoiceLink",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "VoiceLink Uganda",
+    description:
+      "Building speech data infrastructure for African languages through radio station partnerships.",
+  },
+  alternates: {
+    canonical: "https://voicelink.cloud",
   },
 };
 
